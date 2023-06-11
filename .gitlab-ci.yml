@@ -26,13 +26,9 @@ staging:
   before_script:
     - npm ci
   script:
-    - serverless deploy -c serverless.ts -s production --verbose
+    - npx serverless deploy -c serverless.ts -s production --verbose
   only:
     - main
   when: manual
   environment: production
 
-deploy:
-  stage: deploy
-  script: echo "Define your deployment script!"
-  environment: production
