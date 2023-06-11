@@ -4,10 +4,25 @@ import  hello from '@functions/hello';
 const serverlessConfiguration: AWS = {
   service: 'event-bridge',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild'],
+  plugins: ['serverless-esbuild', 'serverless-localstack', 'serverless-offline'],
   provider: {
     name: 'aws',
-    runtime: 'nodejs14.x',
+    runtime: 'nodejs18.x',
+    region: 'ap-northeast-1',
+    apiGateway: {
+      minimumCompressionSize: 1024,
+      shouldStartNameWithService: true,
+    },
+    iamRoleStatements: [{
+      Effect: 'Allow',
+      Action: [
+        "route53:ChangeResourceRecordSets",
+        "route53:ListHostedZones"
+      ],
+      Resource: [
+        "*"
+      ]
+    }],
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
@@ -19,23 +34,53 @@ const serverlessConfiguration: AWS = {
       handler: hello.handler,
       events: [{
         eventBridge: {
-          schedule: "cron(0 10 ? * MON *)",
+          schedule: "cron(0/1 * * * ? *)",
         }
       }]
     }
   },
   package: { individually: true },
   custom: {
+
     esbuild: {
       bundle: true,
       minify: false,
       sourcemap: true,
       exclude: ['aws-sdk'],
-      target: 'node14',
+      target: 'node18',
       define: { 'require.resolve': undefined },
       platform: 'node',
       concurrency: 10,
     },
+    localstack: {
+      stages: 'local',
+      host: 'http://localhost',
+      edgePort: 4566,
+      environment: {
+        AWS_ACCESS_KEY_ID: "hogehoge",
+        AWS_SECRET_ACCESS_KEY: "hogehoge",
+      },
+      lambda: {
+        mountCode: true,
+        input: {
+          key1: 'value' 
+        },
+        iam: {
+          role: {
+            statements: {
+              Effect: 'Allow',
+              Action: [
+                "route53:ChangeResourceRecordSets",
+                "route53:ListHostedZones"
+              ],
+              Resource: [
+                "*"
+              ]
+            }
+          }
+        }
+      },
+    } 
   },
 };
 

@@ -93,3 +93,18 @@ The project code base is mainly located within the `src` folder. This folder is 
 ### Advanced usage
 
 Any tsconfig.json can be used, but if you do, set the environment variable `TS_NODE_CONFIG` for building the application, eg `TS_NODE_CONFIG=./tsconfig.app.json npx serverless webpack`
+
+
+
+# AWS CLI 
+## create iam role
+
+``` sh
+awslocal iam create-role --role-name henoheno --assume-role-policy-document file://iamrole.json
+```
+
+## update attached iam role on lambda function
+
+``` sh
+awslocal lambda update-function-configuration --function-name event-bridge-local-hello --region ap-northeast-1 --role arn:aws:iam::000000000000:role/henoheno
+```

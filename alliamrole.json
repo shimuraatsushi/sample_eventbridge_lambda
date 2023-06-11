@@ -1,0 +1,13 @@
+{
+  "Version": "2012-10-17",
+  "Description": "hogehoge",
+  "Statement": {
+    "Effect": "Allow",
+    "Action": [
+      "*"
+    ],
+    "Resource": [
+      "*"
+    ]
+  }
+}
