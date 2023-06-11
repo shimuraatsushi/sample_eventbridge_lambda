@@ -17,7 +17,8 @@ const serverlessConfiguration: AWS = {
       Effect: 'Allow',
       Action: [
         "route53:ChangeResourceRecordSets",
-        "route53:ListHostedZones"
+        "route53:ListHostedZones",
+        "route53:ListResourceRecordSets",
       ],
       Resource: [
         "*"
@@ -34,7 +35,7 @@ const serverlessConfiguration: AWS = {
       handler: hello.handler,
       events: [{
         eventBridge: {
-          schedule: "cron(0/1 * * * ? *)",
+          schedule: "cron(0/20 * * * ? *)",
         }
       }]
     }
