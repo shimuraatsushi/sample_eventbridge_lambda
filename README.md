@@ -96,7 +96,13 @@ Any tsconfig.json can be used, but if you do, set the environment variable `TS_N
 
 
 
-# AWS CLI 
+# AWS CLI (localstack)
+## create route53 hosted zone
+awslocal route53 create-hosted-zone --name henoheno-prp.com --caller-reference henoheno-pro.com
+
+## change recordset
+awslocal route53 change-resource-record-sets --hosted-zone-id ${hosted-zone-id} --change-batch file://recordset.json
+
 ## create iam role
 
 ``` sh
