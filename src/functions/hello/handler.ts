@@ -15,9 +15,11 @@ type EventBridge = {
 }
 
 const CONFIG = {
-  region: 'api-northeast-1'
+  region: 'ap-northeast-1',
+//  aws_access_key_id: process.env.AWS_ACCESS_KEY_ID,
+//  aws_secret_access_key: process.env.AWS_SECRET_ACCESS_KEY,
 }
-const hosted_zone_id = 'Z04289661GOO5YGQ4VK7H';
+const hosted_zone_id = process.env.HOSTED_ZONE_ID;
 // const local_hosted_zone_id = 'DD04XMEUC9EW8IK';
 
 // "/hostedzone/4H03NPQUW4QPA6V"
@@ -37,8 +39,8 @@ const record_set_request_input: ListResourceRecordSetsRequest = {
 
 
 const hello = async (event: EventBridge) => {
-  console.log(event)
-
+  console.log(CONFIG)
+  
   const client = new Route53Client(CONFIG);
   const command = new ListResourceRecordSetsCommand(record_set_request_input);
   const list_response: ListResourceRecordSetsResponse = await client.send(command);

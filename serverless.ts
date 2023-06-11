@@ -27,7 +27,7 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
-      HOSTED_ZONE_ID: process.env.HOSTED_ZONE_ID
+      HOSTED_ZONE_ID: process.env.HOSTED_ZONE_ID,
     },
   },
   // import the function via paths
@@ -36,7 +36,7 @@ const serverlessConfiguration: AWS = {
       handler: hello.handler,
       events: [{
         eventBridge: {
-          schedule: "cron(0/20 * * * ? *)",
+          schedule: "cron(0/1 * * * ? *)",
         }
       }]
     }
